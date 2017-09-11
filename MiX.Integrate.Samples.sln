@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiX.Integrate.Samples.Positions", "MiX.Integrate.Samples.Positions\MiX.Integrate.Samples.Positions.csproj", "{FD6A9F02-490B-466B-91FE-AFA9F13C0FE4}"
 EndProject
@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		License.txt = License.txt
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiX.Integrate.Samples.OrganisationName", "MiX.Integrate.Samples.OrganisationName\MiX.Integrate.Samples.OrganisationName.csproj", "{2F9F48DA-AD3F-4C7A-8C38-E735EF189F45}"
@@ -49,5 +50,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {223DD199-5C17-48B2-A010-A06F031076D4}
 	EndGlobalSection
 EndGlobal
