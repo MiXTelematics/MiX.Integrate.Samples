@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiX.Integrate.Samples.Positions", "MiX.Integrate.Samples.Positions\MiX.Integrate.Samples.Positions.csproj", "{FD6A9F02-490B-466B-91FE-AFA9F13C0FE4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B81E305C-0C30-4309-BC24-F1BA8CB44560}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		License.txt = License.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiX.Integrate.Samples.OrganisationName", "MiX.Integrate.Samples.OrganisationName\MiX.Integrate.Samples.OrganisationName.csproj", "{2F9F48DA-AD3F-4C7A-8C38-E735EF189F45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiX.Integrate.Samples.AssetsDrivers", "MiX.Integrate.Samples.AssetsDrivers\MiX.Integrate.Samples.AssetsDrivers.csproj", "{35A5DF21-6259-4180-ABED-8866B1DA1CBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiX.Integrate.Samples.Locations", "MiX.Integrate.Samples.Locations\MiX.Integrate.Samples.Locations.csproj", "{23DC6499-6A4B-4006-B26F-4C323EB835C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiX.Integrate.Samples.UpdateAsset", "MiX.Integrate.Samples.UpdateAsset\MiX.Integrate.Samples.UpdateAsset.csproj", "{0C60B012-842C-4AC5-B1DB-A15F2926D32C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD6A9F02-490B-466B-91FE-AFA9F13C0FE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD6A9F02-490B-466B-91FE-AFA9F13C0FE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD6A9F02-490B-466B-91FE-AFA9F13C0FE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD6A9F02-490B-466B-91FE-AFA9F13C0FE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F9F48DA-AD3F-4C7A-8C38-E735EF189F45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F9F48DA-AD3F-4C7A-8C38-E735EF189F45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F9F48DA-AD3F-4C7A-8C38-E735EF189F45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F9F48DA-AD3F-4C7A-8C38-E735EF189F45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35A5DF21-6259-4180-ABED-8866B1DA1CBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35A5DF21-6259-4180-ABED-8866B1DA1CBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35A5DF21-6259-4180-ABED-8866B1DA1CBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35A5DF21-6259-4180-ABED-8866B1DA1CBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23DC6499-6A4B-4006-B26F-4C323EB835C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23DC6499-6A4B-4006-B26F-4C323EB835C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23DC6499-6A4B-4006-B26F-4C323EB835C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23DC6499-6A4B-4006-B26F-4C323EB835C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C60B012-842C-4AC5-B1DB-A15F2926D32C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C60B012-842C-4AC5-B1DB-A15F2926D32C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C60B012-842C-4AC5-B1DB-A15F2926D32C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C60B012-842C-4AC5-B1DB-A15F2926D32C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
