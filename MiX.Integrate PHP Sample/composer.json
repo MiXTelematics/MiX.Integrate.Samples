@@ -1,6 +1,0 @@
-{
-    "require": {
-        "jumbojett/openid-connect-php": "*",
-        "tcdent/php-restclient": "^0.1.7"
-    }
-}
