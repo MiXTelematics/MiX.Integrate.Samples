@@ -28,19 +28,26 @@ namespace MiX.Integrate.Samples.AssetsDriversPassengers
 				UserName = ConfigurationManager.AppSettings["IdentityServerUserName"],
 				Password = ConfigurationManager.AppSettings["IdentityServerPassword"],
 				Scopes = ConfigurationManager.AppSettings["IdentityServerScopes"]
-
 			};
-			var organisationGroupId = long.Parse(ConfigurationManager.AppSettings["OrganisationGroupId"]);
 
 			try
 			{
-        var group = await GetGroupSummary(organisationGroupId, apiBaseUrl, idServerResourceOwnerClientSettings);
+				var group = await GetFirstAvailableOrganisations(apiBaseUrl, idServerResourceOwnerClientSettings);
 
-				var assets = await GetAssets(group, apiBaseUrl, idServerResourceOwnerClientSettings);
-				PrintAssetDetails(group, assets);
+				if (group == null)
+				{
+					Console.WriteLine("");
+					Console.WriteLine("=======================================================================");
+					Console.WriteLine("No available organisations found for user.");
+				}
+				else
+				{
+					var assets = await GetAssets(group, apiBaseUrl, idServerResourceOwnerClientSettings);
+					PrintAssetDetails(group, assets);
 
-				var drivers = await GetDrivers(group, apiBaseUrl, idServerResourceOwnerClientSettings);
-				PrintDriverDetails(group, drivers);
+					var drivers = await GetDrivers(group, apiBaseUrl, idServerResourceOwnerClientSettings);
+					PrintDriverDetails(group, drivers);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -61,9 +68,25 @@ namespace MiX.Integrate.Samples.AssetsDriversPassengers
 			return;
 		}
 
-		private static void PrintAssetDetails(GroupSummary group, List<Asset> assets)
+		private static async Task<Group> GetFirstAvailableOrganisations(string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
 		{
-			Console.WriteLine($"{assets.Count} assets found for {group.Name}");
+			Console.WriteLine("Retrieving Organisation details");
+			var groupsClient = new GroupsClient(apiBaseUrl, idServerResourceOwnerClientSettings);
+			var groups = await groupsClient.GetAvailableOrganisationsAsync();
+			return groups?[0];
+		}
+
+		private static async Task<List<Asset>> GetAssets(Group organisation, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
+		{
+			Console.WriteLine("Retrieving Asset list...");
+			var assetsClient = new AssetsClient(apiBaseUrl, idServerResourceOwnerClientSettings);
+			var assets = await assetsClient.GetAllAsync(organisation.GroupId);
+			return assets;
+		}
+
+		private static void PrintAssetDetails(Group organisation, List<Asset> assets)
+		{
+			Console.WriteLine($"{assets.Count} assets found for {organisation.Name}");
 			Console.WriteLine(string.Empty);
 			Console.WriteLine("Assets");
 			Console.WriteLine("======");
@@ -78,45 +101,29 @@ namespace MiX.Integrate.Samples.AssetsDriversPassengers
 			Console.WriteLine(string.Empty);
 		}
 
-		private static void PrintDriverDetails(GroupSummary group, List<DriverSummary> drivers)
+		private static async Task<List<Driver>> GetDrivers(Group organisation, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
 		{
-			Console.WriteLine($"{drivers.Count} drivers found for {group.Name}");
+			Console.WriteLine("Retrieving Driver list...");
+			var driversClient = new DriversClient(apiBaseUrl, idServerResourceOwnerClientSettings);
+			var drivers = await driversClient.GetAllDriversAsync(organisation.GroupId, "", "");
+			return drivers;
+		}
+
+		private static void PrintDriverDetails(Group organisation, List<Driver> drivers)
+		{
+			Console.WriteLine($"{drivers.Count} drivers found for {organisation.Name}");
 			Console.WriteLine(string.Empty);
 			Console.WriteLine("Drivers");
 			Console.WriteLine("======");
 			Console.WriteLine("ID".PadRight(25) + "Name".PadRight(50));
 
-			foreach (DriverSummary driver in drivers)
+			foreach (Driver driver in drivers)
 			{
 				Console.WriteLine(driver.DriverId.ToString().PadRight(25) + driver.Name.PadRight(50));
 			}
 
 			Console.WriteLine(string.Empty);
 			Console.WriteLine(string.Empty);
-		}
-
-		private static async Task<GroupSummary> GetGroupSummary(long organisationGroupId, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
-		{
-			Console.WriteLine("Retrieving Organisation details");
-			var groupsClient = new GroupsClient(apiBaseUrl, idServerResourceOwnerClientSettings);
-			var group = await groupsClient.GetSubGroupsAsync(organisationGroupId);
-			return group;
-		}
-
-		private static async Task<List<Asset>> GetAssets(GroupSummary group, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
-		{
-			Console.WriteLine("Retrieving Asset list...");
-			var assetsClient = new AssetsClient(apiBaseUrl, idServerResourceOwnerClientSettings);
-			var assets = await assetsClient.GetAllAsync(group.GroupId);
-			return assets;
-		}
-
-		private static async Task<List<DriverSummary>> GetDrivers(GroupSummary group, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
-		{
-			Console.WriteLine("Retrieving Driver list...");
-			var driversClient = new DriversClient(apiBaseUrl, idServerResourceOwnerClientSettings);
-			var drivers = await driversClient.GetAllDriverSummariesAsync(group.GroupId);
-			return drivers;
 		}
 
 		private static void PrintException(Exception ex)
