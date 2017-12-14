@@ -107,7 +107,7 @@ namespace GetLatestPositions
 			var groups = await groupsClient.GetAvailableOrganisationsAsync();
 			if (groups.Count > 0)
 			{
-				var organisation = groups[36];
+				var organisation = groups[0];
 				var group = await groupsClient.GetSubGroupsAsync(organisation.GroupId);
 				return group;
 			}
