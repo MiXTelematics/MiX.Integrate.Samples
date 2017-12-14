@@ -14,10 +14,10 @@ namespace MiX.Integrate.Samples.AssetsDriversPassengers
 	{
 		static void Main(string[] args)
 		{
-			ShowAssetsDrivers().Wait();
+			ShowAssetsDriversAsync().Wait();
 		}
 
-		private static async Task ShowAssetsDrivers()
+		private static async Task ShowAssetsDriversAsync()
 		{
 			var apiBaseUrl = ConfigurationManager.AppSettings["ApiUrl"];
 			var idServerResourceOwnerClientSettings = new IdServerResourceOwnerClientSettings()
@@ -32,7 +32,7 @@ namespace MiX.Integrate.Samples.AssetsDriversPassengers
 
 			try
 			{
-				var group = await GetFirstAvailableOrganisations(apiBaseUrl, idServerResourceOwnerClientSettings);
+				var group = await GetFirstAvailableOrganisationsAsync(apiBaseUrl, idServerResourceOwnerClientSettings);
 
 				if (group == null)
 				{
@@ -42,10 +42,10 @@ namespace MiX.Integrate.Samples.AssetsDriversPassengers
 				}
 				else
 				{
-					var assets = await GetAssets(group, apiBaseUrl, idServerResourceOwnerClientSettings);
+					var assets = await GetAssetsAsync(group, apiBaseUrl, idServerResourceOwnerClientSettings);
 					PrintAssetDetails(group, assets);
 
-					var drivers = await GetDrivers(group, apiBaseUrl, idServerResourceOwnerClientSettings);
+					var drivers = await GetDriversAsync(group, apiBaseUrl, idServerResourceOwnerClientSettings);
 					PrintDriverDetails(group, drivers);
 				}
 			}
@@ -68,7 +68,7 @@ namespace MiX.Integrate.Samples.AssetsDriversPassengers
 			return;
 		}
 
-		private static async Task<Group> GetFirstAvailableOrganisations(string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
+		private static async Task<Group> GetFirstAvailableOrganisationsAsync(string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
 		{
 			Console.WriteLine("Retrieving Organisation details");
 			var groupsClient = new GroupsClient(apiBaseUrl, idServerResourceOwnerClientSettings);
@@ -76,7 +76,7 @@ namespace MiX.Integrate.Samples.AssetsDriversPassengers
 			return groups?[0];
 		}
 
-		private static async Task<List<Asset>> GetAssets(Group organisation, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
+		private static async Task<List<Asset>> GetAssetsAsync(Group organisation, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
 		{
 			Console.WriteLine("Retrieving Asset list...");
 			var assetsClient = new AssetsClient(apiBaseUrl, idServerResourceOwnerClientSettings);
@@ -101,7 +101,7 @@ namespace MiX.Integrate.Samples.AssetsDriversPassengers
 			Console.WriteLine(string.Empty);
 		}
 
-		private static async Task<List<Driver>> GetDrivers(Group organisation, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
+		private static async Task<List<Driver>> GetDriversAsync(Group organisation, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
 		{
 			Console.WriteLine("Retrieving Driver list...");
 			var driversClient = new DriversClient(apiBaseUrl, idServerResourceOwnerClientSettings);

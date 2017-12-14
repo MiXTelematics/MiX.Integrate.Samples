@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
 
@@ -11,10 +12,10 @@ namespace MiX.Integrate.Samples.OrganisationDetails
 	{
 		static void Main(string[] args)
 		{
-			ShowOrganisationName().Wait();
+			ShowOrganisationNamesAsync().Wait();
 		}
 
-		private static async Task ShowOrganisationName()
+		private static async Task ShowOrganisationNamesAsync()
 		{
 			var apiBaseUrl = ConfigurationManager.AppSettings["ApiUrl"];
 			var idServerResourceOwnerClientSettings = new IdServerResourceOwnerClientSettings()
@@ -26,12 +27,11 @@ namespace MiX.Integrate.Samples.OrganisationDetails
 				Password = ConfigurationManager.AppSettings["IdentityServerPassword"],
 				Scopes = ConfigurationManager.AppSettings["IdentityServerScopes"]
 			};
-			var organisationGroupId = long.Parse(ConfigurationManager.AppSettings["OrganisationGroupId"]);
 
 			try
 			{
-				var group = await GetGroupSummary(organisationGroupId, apiBaseUrl, idServerResourceOwnerClientSettings);
-				Console.WriteLine("Organisation Name : {0}", group.Name);
+				var allowedOrganisations = await GetAllowedOrganisationsAsync(apiBaseUrl, idServerResourceOwnerClientSettings);
+				PrintOrganisationDetails(allowedOrganisations);
 			}
 			catch (Exception ex)
 			{
@@ -52,12 +52,28 @@ namespace MiX.Integrate.Samples.OrganisationDetails
 			return;
 		}
 
-		private static async Task<GroupSummary> GetGroupSummary(long organisationGroupId, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
+		private static async Task<List<Group>> GetAllowedOrganisationsAsync(string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
 		{
-			Console.WriteLine("Retrieving Organisation details");
+			Console.WriteLine("Retrieving allowed organisation list");
 			var groupsClient = new GroupsClient(apiBaseUrl, idServerResourceOwnerClientSettings);
-			var group = await groupsClient.GetSubGroupsAsync(organisationGroupId);
+			var group = await groupsClient.GetAvailableOrganisationsAsync();
 			return group;
+		}
+
+		private static void PrintOrganisationDetails(List<Group> organisations)
+		{
+			Console.WriteLine($"{organisations.Count} Organsiations found");
+			Console.WriteLine(string.Empty);
+			Console.WriteLine("ID".PadRight(25) + "Description".PadRight(50));
+			Console.WriteLine($"{new String('=', 24)} {new String('=', 50)}");
+
+			foreach (Group organisation in organisations)
+			{
+				Console.WriteLine(organisation.GroupId.ToString().PadRight(25) + organisation.Name);
+			}
+
+			Console.WriteLine(string.Empty);
+			Console.WriteLine(string.Empty);
 		}
 
 		private static void PrintException(Exception ex)

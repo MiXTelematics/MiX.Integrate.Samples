@@ -51,11 +51,11 @@
     <Reference Include="MiX.Identity.Client, Version=2017.9.11.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MiX.Identity.Client.2017.9.11.1\lib\net451\MiX.Identity.Client.dll</HintPath>
     </Reference>
-    <Reference Include="MiX.Integrate.Api.Client, Version=2017.9.11.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MiX.Integrate.Api.Client.2017.9.11.1\lib\net451\MiX.Integrate.Api.Client.dll</HintPath>
+    <Reference Include="MiX.Integrate.Api.Client, Version=2017.11.13.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MiX.Integrate.Api.Client.2017.11.13.1\lib\net451\MiX.Integrate.Api.Client.dll</HintPath>
     </Reference>
-    <Reference Include="MiX.Integrate.Shared, Version=2017.9.11.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MiX.Integrate.Api.Client.2017.9.11.1\lib\net451\MiX.Integrate.Shared.dll</HintPath>
+    <Reference Include="MiX.Integrate.Shared, Version=2017.11.13.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MiX.Integrate.Api.Client.2017.11.13.1\lib\net451\MiX.Integrate.Shared.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>

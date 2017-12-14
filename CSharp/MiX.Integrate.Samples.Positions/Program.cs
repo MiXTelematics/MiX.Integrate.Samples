@@ -32,15 +32,14 @@ namespace GetLatestPositions
 				Scopes = ConfigurationManager.AppSettings["IdentityServerScopes"]
 
 			};
-			var organisationGroupId = long.Parse(ConfigurationManager.AppSettings["OrganisationGroupId"]);
 
 			Console.WriteLine($"Connecting to: {apiBaseUrl}");
 
 			try
 			{
-				var group = await GetGroupSummary(organisationGroupId, apiBaseUrl, idServerResourceOwnerClientSettings);
+				var group = await GetFirstAvailableOrganisationsAsync(apiBaseUrl, idServerResourceOwnerClientSettings);
 
-				var assets = await GetAssets(group, apiBaseUrl, idServerResourceOwnerClientSettings);
+				var assets = await GetAssetsAsync(group.GroupId, apiBaseUrl, idServerResourceOwnerClientSettings);
 
 				if (assets.Count < 1)
 				{
@@ -49,25 +48,23 @@ namespace GetLatestPositions
 				}
 				else
 				{
-					Console.WriteLine($"{assets.Count} assets found for {group.Name}");
+					Console.WriteLine($"{assets.Count} assets found for {group.Name}.");
 				}
 
-				var assetIds = assets.Select(a => a.AssetId).ToList();
-
 				var positionClient = new PositionsClient(apiBaseUrl, idServerResourceOwnerClientSettings);
-				var lastRequest = DateTime.UtcNow.AddDays(-1);
-
+				var lastRequest = DateTime.MinValue;
+				var groupList = new List<long> { group.GroupId };
 				for (int i = 0; i < INTERATIONS; i++)
 				{
 					Console.WriteLine("");
 					Console.WriteLine("=======================================================================");
 					Console.WriteLine("Retrieving positions....");
 
-					var positions = await positionClient.GetLatestByAssetIdsAsync(assetIds, 1, lastRequest).ConfigureAwait(false);
+					var positions = await positionClient.GetLatestByGroupIdsAsync(groupList, 1, lastRequest).ConfigureAwait(false);
 					lastRequest = DateTime.UtcNow;
 					Console.WriteLine($"Retrieved {positions.Count} positions.");
 
-					foreach (var item in from pos in positions.Take(10) // for sample, only print first ten positions.
+					foreach (var item in from pos in positions //.Take(10) // for sample, only print first ten positions.
 															 join ast in assets on pos.AssetId equals ast.AssetId
 															 select new
 															 {
@@ -81,7 +78,7 @@ namespace GetLatestPositions
 						Console.WriteLine($"{item.Registration,-15}  {item.Timestamp}  {item.Latitude:N6} - {item.Longitutde:N6}  {item.Odometer,10:N1} Km");
 					}
 
-					if (i < INTERATIONS - 1) await Task.Delay(5000); //wait 5 seconds
+					if (i < INTERATIONS - 1) await Task.Delay(30000); //wait 30 seconds
 				}
 			}
 			catch (Exception ex)
@@ -103,19 +100,31 @@ namespace GetLatestPositions
 			return;
 		}
 
-		private static async Task<GroupSummary> GetGroupSummary(long organisationGroupId, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
+		private static async Task<GroupSummary> GetFirstAvailableOrganisationsAsync(string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
 		{
 			Console.WriteLine("Retrieving Organisation details");
 			var groupsClient = new GroupsClient(apiBaseUrl, idServerResourceOwnerClientSettings);
-			var group = await groupsClient.GetSubGroupsAsync(organisationGroupId);
-			return group;
+			var groups = await groupsClient.GetAvailableOrganisationsAsync();
+			if (groups.Count > 0)
+			{
+				var organisation = groups[36];
+				var group = await groupsClient.GetSubGroupsAsync(organisation.GroupId);
+				return group;
+			}
+			else
+			{
+				Console.WriteLine("");
+				Console.WriteLine("=======================================================================");
+				Console.WriteLine("No available organisations found.");
+				return null;
+			}
 		}
 
-		private static async Task<List<Asset>> GetAssets(GroupSummary group, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
+		private static async Task<List<Asset>> GetAssetsAsync(long groupId, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
 		{
 			Console.WriteLine("Retrieving Asset list...");
 			var assetsClient = new AssetsClient(apiBaseUrl, idServerResourceOwnerClientSettings);
-			var assets = await assetsClient.GetAllAsync(group.GroupId);
+			var assets = await assetsClient.GetAllAsync(groupId);
 			return assets;
 		}
 
