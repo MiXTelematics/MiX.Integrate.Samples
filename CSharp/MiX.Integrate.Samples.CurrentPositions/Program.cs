@@ -8,7 +8,7 @@ using MiX.Integrate.Api.Client;
 using MiX.Integrate.Shared.Entities.Assets;
 using MiX.Integrate.Shared.Entities.Groups;
 
-namespace GetLatestPositions
+namespace MiX.Integrate.Samples.CurrentPositions
 {
 	class Program
 	{
