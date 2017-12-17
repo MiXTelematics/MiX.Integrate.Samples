@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Positions", "Positions", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiX.Integrate.Samples.CurrentPositions", "MiX.Integrate.Samples.CurrentPositions\MiX.Integrate.Samples.CurrentPositions.csproj", "{FD6A9F02-490B-466B-91FE-AFA9F13C0FE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiX.Integrate.Samples.PositionStream", "MiX.Integrate.Samples.PositionStream\MiX.Integrate.Samples.PositionStream.csproj", "{4FAE6D8E-2EC3-4662-AD14-86F466CA4828}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,12 +51,17 @@ Global
 		{FD6A9F02-490B-466B-91FE-AFA9F13C0FE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD6A9F02-490B-466B-91FE-AFA9F13C0FE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD6A9F02-490B-466B-91FE-AFA9F13C0FE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FAE6D8E-2EC3-4662-AD14-86F466CA4828}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FAE6D8E-2EC3-4662-AD14-86F466CA4828}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FAE6D8E-2EC3-4662-AD14-86F466CA4828}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FAE6D8E-2EC3-4662-AD14-86F466CA4828}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FD6A9F02-490B-466B-91FE-AFA9F13C0FE4} = {047485AE-E826-4FDA-BD29-D82CDC1E3B27}
+		{4FAE6D8E-2EC3-4662-AD14-86F466CA4828} = {047485AE-E826-4FDA-BD29-D82CDC1E3B27}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {223DD199-5C17-48B2-A010-A06F031076D4}
