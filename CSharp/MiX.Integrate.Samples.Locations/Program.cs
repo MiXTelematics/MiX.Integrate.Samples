@@ -15,10 +15,10 @@ namespace MiX.Integrate.Samples.Locations
 	{
 		static void Main(string[] args)
 		{
-			ShowSiteLocations().Wait();
+			ShowSiteLocationsAsync().Wait();
 		}
 
-		private static async Task ShowSiteLocations()
+		private static async Task ShowSiteLocationsAsync()
 		{
 			var apiBaseUrl = ConfigurationManager.AppSettings["ApiUrl"];
 			var idServerResourceOwnerClientSettings = new IdServerResourceOwnerClientSettings()
@@ -29,15 +29,13 @@ namespace MiX.Integrate.Samples.Locations
 				UserName = ConfigurationManager.AppSettings["IdentityServerUserName"],
 				Password = ConfigurationManager.AppSettings["IdentityServerPassword"],
 				Scopes = ConfigurationManager.AppSettings["IdentityServerScopes"]
-
 			};
-			var organisationGroupId = long.Parse(ConfigurationManager.AppSettings["OrganisationGroupId"]);
 			
       Console.WriteLine($"Connecting to: {apiBaseUrl}");
 
 			try
 			{
-				var group = await GetGroupSummary(organisationGroupId, apiBaseUrl, idServerResourceOwnerClientSettings);
+				var group = await GetFirstAvailableOrganisationsAsync(apiBaseUrl, idServerResourceOwnerClientSettings);
 				var defaultSite = GetDefaultSite(group);
 
 				if (defaultSite == null)
@@ -48,7 +46,7 @@ namespace MiX.Integrate.Samples.Locations
 					return;
 				}
 
-				var locations = await GetLocations(defaultSite, apiBaseUrl, idServerResourceOwnerClientSettings);
+				var locations = await GetLocationsAsync(defaultSite, apiBaseUrl, idServerResourceOwnerClientSettings);
 				PrintLocationDetails(defaultSite, locations);
       }
 			catch (Exception ex)
@@ -70,6 +68,26 @@ namespace MiX.Integrate.Samples.Locations
 			return;
 		}
 
+		private static async Task<GroupSummary> GetFirstAvailableOrganisationsAsync(string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
+		{
+			Console.WriteLine("Retrieving Organisation details");
+			var groupsClient = new GroupsClient(apiBaseUrl, idServerResourceOwnerClientSettings);
+			var groups = await groupsClient.GetAvailableOrganisationsAsync();
+			if (groups.Count > 0)
+			{
+				var organisation = groups[0];
+				var group = await groupsClient.GetSubGroupsAsync(organisation.GroupId);
+				return group;
+			}
+			else
+			{
+				Console.WriteLine("");
+				Console.WriteLine("=======================================================================");
+				Console.WriteLine("No available organisations found.");
+				return null;
+			}
+		}
+
 		private static GroupSummary GetDefaultSite(GroupSummary organisationGroup)
 		{
       foreach (var subGroup in organisationGroup.SubGroups)
@@ -80,17 +98,9 @@ namespace MiX.Integrate.Samples.Locations
 			return null;
 		}
 
-		private static async Task<GroupSummary> GetGroupSummary(long organisationGroupId, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
+		private static async Task<List<Location>> GetLocationsAsync(GroupSummary group, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
 		{
-			Console.WriteLine("Retrieving Organisation details");
-			var groupsClient = new GroupsClient(apiBaseUrl, idServerResourceOwnerClientSettings);
-			var group = await groupsClient.GetSubGroupsAsync(organisationGroupId);
-			return group;
-		}
-
-		private static async Task<List<Location>> GetLocations(GroupSummary group, string apiBaseUrl, IdServerResourceOwnerClientSettings idServerResourceOwnerClientSettings)
-		{
-			Console.WriteLine("Retrieving Locations...");
+			Console.WriteLine($"Retrieving Locations for {group.Name}...");
 			var locationsClient = new LocationsClient(apiBaseUrl, idServerResourceOwnerClientSettings);
 			var locations = await locationsClient.GetAllAsync(group.GroupId);
 			return locations;
