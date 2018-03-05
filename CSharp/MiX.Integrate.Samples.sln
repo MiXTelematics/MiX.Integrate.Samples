@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B81E305C-0C30-4309-BC24-F1BA8CB44560}"
 	ProjectSection(SolutionItems) = preProject
-		.gitattributes = .gitattributes
-		.gitignore = .gitignore
-		License.txt = License.txt
-		README.md = README.md
+		..\.gitattributes = ..\.gitattributes
+		..\.gitignore = ..\.gitignore
+		..\License.txt = ..\License.txt
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiX.Integrate.Samples.OrganisationName", "MiX.Integrate.Samples.OrganisationName\MiX.Integrate.Samples.OrganisationName.csproj", "{2F9F48DA-AD3F-4C7A-8C38-E735EF189F45}"
