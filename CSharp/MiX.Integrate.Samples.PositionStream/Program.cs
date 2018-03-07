@@ -95,7 +95,7 @@ namespace MiX.Integrate.Samples.PositionStream
 				// is executed. In a production service this sould only be seeded on
 				// first execution and persisted between executions so that the stream
 				// is read correctly
-				var getSinceToken = DateTime.UtcNow.AddHours(-1);
+				string getSinceToken = DateTime.UtcNow.AddHours(-1).ToString("yyyyMMddHHmmssfff");
 
 				//
 				// Setup helper client and go into process loop
@@ -118,7 +118,7 @@ namespace MiX.Integrate.Samples.PositionStream
 						ProcessPositions(positions, assets);
 
 						// persist token for next retrieval.
-						getSinceToken = DateTime.Parse(requestResult.CreatedDateTime);
+						getSinceToken =  requestResult.GetSinceToken ;
 					} while (haveMoreItems);
 
 					//
