@@ -3,6 +3,7 @@
 import requests
 import json
 import base64  
+from requests.utils import quote
 
 IdentityUrl = "https://identity.uat.mixtelematics.com"  
 ApiUrl = "https://integrate.uat.mixtelematics.com"
@@ -27,7 +28,7 @@ IdTokenEndPoint = IdServerConfig["token_endpoint"]
 
 print("2. Authenticate against Identity server")
 auth = "Basic " + base64.b64encode(bytes(IdentityClientId + ":" + IdentityClientSecret, "utf-8")).decode('ascii')
-body = "grant_type=password&username=" + IdentityUsername + "&password=" + IdentityPassword + "&scope=" + IdentityScope
+body = "grant_type=password&username=" + quote(IdentityUsername)+ "&password=" + quote(IdentityPassword) + "&scope=" + IdentityScope
 #print("Authorization: " + auth)
 #print("Body: " + body)
 print("Request: " + IdTokenEndPoint)
