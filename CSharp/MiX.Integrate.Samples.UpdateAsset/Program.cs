@@ -51,7 +51,7 @@ namespace MiX.Integrate.Samples.UpdateAsset
 				assetsClient.Update(asset);
 
 				asset = assetsClient.Get(asset.AssetId);
-				Console.WriteLine($"Asset with description '{0}' notes updated to '{1}'", asset.Description, asset.Notes);
+				Console.WriteLine($"Asset with description '{asset.Description }' notes updated to '{asset.Notes}'");
 			}
 			catch (Exception ex)
 			{
