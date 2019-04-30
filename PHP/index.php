@@ -15,7 +15,7 @@ $dynamixUserPassword = "";
 $scope = "offline_access MiX.Integrate"; //This is required for MiX Integrate
 
 //Connect to the OpenID with OpendID-Connect-PHP -- for help: https://github.com/jumbojett/OpenID-Connect-PHP
-use OpenIDConnectClient;
+use Jumbojett\OpenIDConnectClient;
 
 //Create the OpenID Connect object
 $oidc = new OpenIDConnectClient($IDBaseUrl,
