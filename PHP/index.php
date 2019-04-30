@@ -46,11 +46,11 @@ $result = $api->get("/version");  //this is to get the version number
 //Display the result - will need to parse
 if($result->info->http_code == 200)
     print_r($result->decode_response());
-?>
+
 
 //Example of an API call using PUSH with parameters to get the latest position of a vehicle.
 $assetId = 0123456789012345678;
-$result = $api->push("/api/positions/assets/latest/1", , json_encode([$assetId])); // Parameters have to be JSON-Encoded.
+$result = $api->post("/api/positions/assets/latest/1", json_encode([$assetId]) , []); // Parameters have to be JSON-Encoded.
 
 //Display the result - will need to parse
 if($result->info->http_code == 200)
