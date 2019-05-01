@@ -40,19 +40,27 @@ $api = new RestClient([
     'headers' => ['Authorization' => 'Bearer '.$token, 'Content-Type' => 'application/json', 'Accept' => 'application/json'], 
 ]);
 
+
 //Make an API call to the MiX Integrate server
 $result = $api->get("/version");  //this is to get the version number
 
-//Display the result - will need to parse
-if($result->info->http_code == 200)
-    print_r($result->decode_response());
-
-
-//Example of an API call using PUSH with parameters to get the latest position of a vehicle.
-$assetId = 0123456789012345678;
-$result = $api->post("/api/positions/assets/latest/1", json_encode([$assetId]) , []); // Parameters have to be JSON-Encoded.
+echo "<hr><br>";
+echo "Make an API call to the MiX Integrate server.<br>";
 
 //Display the result - will need to parse
 if($result->info->http_code == 200)
-    print_r($result->decode_response());
+    echo "<pre>";  print_r($result->decode_response()); echo "</pre>";
+
+
+//Example of an API call using POST with parameters to get the latest position of a vehicle.
+echo "<hr><br>";
+echo "Example of an API call using POST with parameters to get the latest position of a vehicle.<br>";
+
+$assetId = "0123456789012345678";
+$result = $api->post("/api/positions/assets/latest/1", "[$assetId]" , []);
+
+//Display the result - will need to parse
+if($result->info->http_code == 200)
+    echo "<pre>"; print_r($result->decode_response()); echo "</pre>";
+    
 ?>
